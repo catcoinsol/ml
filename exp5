@@ -1,0 +1,38 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn import datasets
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+from sklearn.metrics import confusion_matrix
+
+# Load breast cancer dataset
+breast_cancer = datasets.load_breast_cancer()
+
+# Split data into training and testing sets
+x_train, x_test, y_train, y_test = train_test_split(breast_cancer['data'], breast_cancer['target'], test_size=0.20, random_state=42)
+
+# Create SVM classifier
+svm = SVC()
+
+# Fit SVM classifier to training data
+svm.fit(x_train, y_train)
+
+# Predictions
+y_pred = svm.predict(x_test)
+
+# Compute confusion matrix
+conf_matrix = confusion_matrix(y_test, y_pred)
+
+# Plot confusion matrix
+sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', cbar=False)
+plt.title('Confusion Matrix')
+plt.xlabel('Predicted')
+plt.ylabel('Actual')
+plt.show()
+
+# # Plot ROC curve
+# plot_roc_curve(svm, x_test, y_test)
+# plt.title('ROC Curve')
+# plt.show()
